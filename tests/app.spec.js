@@ -2,12 +2,7 @@ const { test, expect } = require("@playwright/test");
 const { chromium } = require("playwright");
 const { userEmail, userPassword } = require("../user");
 
-test("Successful authorization", async () => {
-    const browser = await chromium.launch({
-        headless: false,
-        slowMo: 5000,
-    });
-    const page = await browser.newPage("https://netology.ru/?modal=sign_in");
+test("Successful authorization", async ({ page }) => {
     await page.goto("https://netology.ru/?modal=sign_in");
 
     await page.fill('[placeholder="Email"]', userEmail);
@@ -21,15 +16,9 @@ test("Successful authorization", async () => {
         path: "./screanshots/screenshotSuccessful.png",
         fullPage: true,
     });
-    await browser.close();
 }, 5000);
 
-test("Unsuccessful authorization", async () => {
-    const browser = await chromium.launch({
-        headless: false,
-        slowMo: 5000,
-    });
-    const page = await browser.newPage("https://netology.ru/?modal=sign_in");
+test("Unsuccessful authorization", async ({ page }) => {
     await page.goto("https://netology.ru/?modal=sign_in");
 
     await page.fill('[placeholder="Email"]', "asdf@gfds.com");
@@ -43,5 +32,4 @@ test("Unsuccessful authorization", async () => {
         path: "./screanshots/screenshotUnsuccessful.png",
         fullPage: false,
     });
-    await browser.close();
 }, 5000);
